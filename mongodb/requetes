@@ -1,0 +1,7 @@
+db.products.aggregate([{$group:{_id:{"maker":"$manufacturer"},sum_prices:{$sum:"$price"}}}])
+
+db.zips.aggregate([{$match:{state:"NY"}},{$group:{_id:"$city", population:{$sum:"$pop"}}},{$sort:{population:-1}},{$skip:10},{$limit:10}])
+
+db.zips.aggregate([{$group:{_id:{state:"$state", city:"$city"},population:{$sum:"$pop"}}}])
+
+db.zips.aggregate([{$group:{_id:{state:"$state", city:"$city"},population:{$sum:"$pop"}}},{$sort:{"id_state":1,"population":-1}},{$group:{_id:"$_id.state", city:{$first:"$_id.city"},population:{$first:"$population"}}}])
